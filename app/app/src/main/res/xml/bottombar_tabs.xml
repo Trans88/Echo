@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_favorites"
+        icon="@drawable/ic_video"
+        title="放映厅" />
+    <tab
+        id="@+id/tab_nearby"
+        icon="@drawable/ic_dongtai"
+        title="动态" />
+    <tab
+        id="@+id/tab_my"
+        icon="@drawable/ic_my"
+        title="我的" />
+</tabs>

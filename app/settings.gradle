@@ -1,2 +1,4 @@
 rootProject.name='Echo'
 include ':app'
+include ':common'
+include ':mvp'
