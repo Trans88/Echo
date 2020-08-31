@@ -6,6 +6,7 @@ import cn.trans88.mvp.IMvpView
 import cn.trans88.mvp.IPresenter
 
 abstract class BasePresenter<out V:IMvpView<BasePresenter<V>>>:IPresenter<V> {
+    //@UnsafeVariance 有时候泛型是协变但是你又想把它作为参数传入，或者有时是逆变的时候又想作为返回值返回，就用这个标签
     override lateinit var view: @UnsafeVariance V
     override fun onCreate(savedInstanceState: Bundle?) =Unit
 

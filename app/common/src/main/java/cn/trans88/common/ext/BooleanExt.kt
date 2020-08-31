@@ -6,7 +6,7 @@ sealed class BooleanExt<out T>//todo 这里为什么要加协变，不加协变�
 object Otherwise : BooleanExt<Nothing>()
 class WithData<T>(val data: T) : BooleanExt<T>()
 
-inline fun<T> Boolean.isYes(block: () -> T) =
+inline fun<T> Boolean.yes(block: () -> T) =
     when {
         this -> {
             WithData(block())
@@ -16,7 +16,7 @@ inline fun<T> Boolean.isYes(block: () -> T) =
         }
     }
 
-inline fun <T> Boolean.isNo(block: () -> T) = when {
+inline fun <T> Boolean.no(block: () -> T) = when {
     this -> Otherwise
     else -> {
         WithData(block())

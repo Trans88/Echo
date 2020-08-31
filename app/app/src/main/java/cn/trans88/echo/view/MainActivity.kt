@@ -1,12 +1,8 @@
-package cn.trans88.echo
+package cn.trans88.echo.view
 
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.IBinder
+import cn.trans88.echo.R
 
 class MainActivity : AppCompatActivity() {
 

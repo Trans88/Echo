@@ -1,7 +1,7 @@
 package cn.trans88.mvp.impl
 
-import android.content.res.Configuration
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import cn.trans88.mvp.IMvpView
 import cn.trans88.mvp.IPresenter
@@ -11,7 +11,7 @@ import kotlin.reflect.full.isSubclassOf
 import kotlin.reflect.full.primaryConstructor
 import kotlin.reflect.jvm.jvmErasure
 
-abstract class BaseFragment<out P:BasePresenter<BaseFragment<P>>>:Fragment(),IMvpView<P>{
+abstract class BaseActivity<out P:BasePresenter<BaseActivity<P>>>: AppCompatActivity(), IMvpView<P> {
     final override val presenter: P
     init {
         presenter =createPresenterKt()
@@ -23,16 +23,15 @@ abstract class BaseFragment<out P:BasePresenter<BaseFragment<P>>>:Fragment(),IMv
      */
     private fun createPresenterKt():P{
         sequence{
-            var thisClass:KClass<*> =this@BaseFragment::class
+            var thisClass: KClass<*> =this@BaseActivity::class
             while (true){
                 yield(thisClass.supertypes)
                 thisClass =thisClass.supertypes.firstOrNull()?.jvmErasure?:break
-
             }
         }.flatMap{
             it.flatMap{kType->
                 kType.arguments
-            }.asSequence() //拿到泛式参数的list
+            }.asSequence() //拿到泛型参数的list
         }.first{
             it.type?.jvmErasure?.isSubclassOf(IPresenter::class)?:false//筛选出来的必须是IPresenter的实例，否则不要
         }.let{
@@ -45,7 +44,7 @@ abstract class BaseFragment<out P:BasePresenter<BaseFragment<P>>>:Fragment(),IMv
      */
     private fun createPresenter():P{
         sequence{
-            var thisClass:Class<*> =this@BaseFragment.javaClass
+            var thisClass:Class<*> =this@BaseActivity.javaClass
             while (true){
                 yield(thisClass.genericSuperclass)
                 thisClass =thisClass.superclass?:break
@@ -54,7 +53,7 @@ abstract class BaseFragment<out P:BasePresenter<BaseFragment<P>>>:Fragment(),IMv
             it is ParameterizedType
         }.flatMap{
             (it as ParameterizedType).actualTypeArguments.asSequence()
-            //拿到泛式参数的list
+            //拿到泛型参数的list
         }.first{
             it is Class<*> && IPresenter::class.java.isAssignableFrom(it)
         }.let{
@@ -99,8 +98,10 @@ abstract class BaseFragment<out P:BasePresenter<BaseFragment<P>>>:Fragment(),IMv
         presenter.onSaveInstanceState(outState)
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        onViewStateRestored(savedInstanceState)
         presenter.onViewStateRestored(savedInstanceState)
     }
+
 }
