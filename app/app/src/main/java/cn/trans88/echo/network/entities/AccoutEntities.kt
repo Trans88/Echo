@@ -24,3 +24,4 @@ data class AuthorizationRsp(var id: Int,
 
 @PoKo
 data class App(var name: String, var url: String, var client_id: String)
+
