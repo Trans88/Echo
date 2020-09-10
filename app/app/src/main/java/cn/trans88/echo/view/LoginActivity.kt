@@ -2,6 +2,7 @@ package cn.trans88.echo.view
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,11 +14,12 @@ import cn.trans88.echo.R
 import cn.trans88.echo.presenter.LoginPresenter
 import cn.trans88.mvp.impl.BaseActivity
 import com.bennyhuo.common.ext.hideSoftInput
+import com.bennyhuo.tieguanyin.annotations.Builder
 import kotlinx.android.synthetic.main.activity_login.*
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.sdk15.listeners.onClick
-import org.jetbrains.anko.toast
+import splitties.toast.toast
+import splitties.views.onClick
 
+@Builder(flags = [Intent.FLAG_ACTIVITY_NO_HISTORY])
 class LoginActivity : BaseActivity<LoginPresenter>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +78,8 @@ class LoginActivity : BaseActivity<LoginPresenter>() {
     fun onLoginSuccess(){
         toast("登陆成功")
         showProgress(false)
+        startMainActivity()
+        finish()
     }
 
     fun onDataInit(name:String,passwd:String){
